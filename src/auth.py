@@ -1,6 +1,6 @@
 import auth_pb2
 import auth_pb2_grpc
-
+from services.auth_service import AuthService
 
 class AuthServiceServicer(auth_pb2_grpc.AuthServiceServicer):
 
@@ -13,8 +13,12 @@ class AuthServiceServicer(auth_pb2_grpc.AuthServiceServicer):
 
     async def Register(self, request, context):
         print(f"Register request: {request.username}, {request.password}")
-        # Здесь можно проверить пользователя, записать в БД, сгенерировать JWT и т.д.
+        password_hash = AuthService().hash_password(request.password)
+        print(f"Password hash: {password_hash}")
+        jwt_token = AuthService().create_access_token({"user_name": request.username})
         return auth_pb2.RegisterReply(
             success=True,
-            message="User registered successfully"
+            username=request.username,
+            password=password_hash,
+            token=jwt_token,
         )
