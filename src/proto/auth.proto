@@ -14,7 +14,6 @@ message LoginRequest {
 
 message LoginResponse {
     string token = 1;
-    string refresh_token = 2;
 }
 
 message RegisterRequest {
@@ -25,6 +24,5 @@ message RegisterRequest {
 message RegisterReply {
     bool success = 1;
     string username = 2;
-    string token = 3;
-    string password = 4;
+    string password = 3;
 }
